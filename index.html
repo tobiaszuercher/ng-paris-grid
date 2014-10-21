@@ -24,13 +24,8 @@
         <thead>
             <tr>
                 <th ng-repeat="column in app.gridSettings.columns" class="grid-header"
-
-                    ng-drop="true"
-                    ng-drop-success="app.dropColumn($data,$event,column);"
                     ng-init="search=false;">
-                    <a href="" ng-click="app.setSort(column);"
-                       ng-drag="true"
-                       ng-drag-data="column">{{column}}</a>
+                    <a href="" ng-click="app.setSort(column);">{{column}}</a>
                     <i class="fa fa-search" ng-click="search=!search;"></i>
                     <i  ng-if="app.gridSettings.sortNames[column]"
                         class="fa fa-sort{{app.gridSettings.sortNames[column].up && '-up' || '-down' }}"></i>
