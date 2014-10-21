@@ -1,0 +1,16 @@
+.grid-header{
+    text-transform : capitalize;
+
+}
+
+.grid-columns-dropdown{
+    position : absolute;
+    z-index:999;
+
+}
+.grid-columns-dropdown-wrapper{
+    width : 200px;
+}
+.table-header{
+
+}

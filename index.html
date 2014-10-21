@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Ng Workshop</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="stylesheets/style.css" type="text/css">
+    <link rel="stylesheet" href="stylesheets/font-awesome.css" type="text/css">
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script src="vendors/angular.js"></script>
+    <script src="app/workshop/workshop.js"></script>
+    <script src="vendors/draggable.js"></script>
+</head>
+<body ng-app="workshop" ng-controller="AppCtrl as app">
+    <div class="table-header">
+
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th ng-repeat="column in app.gridSettings.columns" class="grid-header"
+
+                    ng-drop="true"
+                    ng-drop-success="app.dropColumn($data,$event,column);"
+                    ng-init="search=false;">
+                    <a href="" ng-click="app.setSort(column);"
+                       ng-drag="true"
+                       ng-drag-data="column">{{column}}</a>
+                    <i class="fa fa-search" ng-click="search=!search;"></i>
+                    <i  ng-if="app.gridSettings.sortNames[column]"
+                        class="fa fa-sort{{app.gridSettings.sortNames[column].up && '-up' || '-down' }}"></i>
+                    <div ng-if="search">
+                        <input type="text"
+                               ng-model="app.gridSettings.filterValues[column]"/>
+                        <i class="fa fa-remove" ng-click="search=false;app.setSearch(column,false);"></i>
+                    </div>
+
+                </th>
+                <th ng-init="columnDropdown = false" class="grid-columns-dropdown-wrapper">
+                    Columns
+                    <i class="fa fa-toggle-down" ng-click="columnDropdown = !columnDropdown"></i>
+
+                    <div class="grid-columns-dropdown well" ng-show="columnDropdown">
+                        <span ng-repeat="(column,value) in app.gridSettings.data[0]" class="grid-header">
+                            <input name="selectedColumns[]" type="checkbox"
+                                   value="{{column}}"
+                                   ng-checked="app.gridSettings.columns.indexOf(column)>-1"
+                                   ng-click="app.toggleColumn(column)">
+                            {{column}}<br/>
+
+                        </span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="game in app.gridSettings.data | filter:app.gridSettings.filterValues | orderBy:app.gridSettings.initSort">
+
+                <td ng-repeat="column in app.gridSettings.columns">
+                    <img ng-if="app.isImage(game[column])" ng-src="{{app.url + game[column]}}"/>
+                    <span ng-if="!app.isImage(game[column])">
+                        {{::game[column]}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
